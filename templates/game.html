@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Boggle Game</title>
+
+        <!-- Correctly reference the CSS file -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        
+        <!-- Include Axios -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        
+        <!-- Include jQuery -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>    
+<body>
+    <h1>Welcome to Boggle!</h1>
+
+    <div id="timer">Time Left: 60s</div>
+
+    <div id="score">0</div>  <!-- Display the current score -->
+
+    <div id="boggle-board">
+        <table>
+            {% for row in board %}
+                <tr>
+                    {% for letter in row %}
+                        <td>{{ letter }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <form id="guess-form" method="POST" action="/check-word">
+        <label for="guess">Enter a word:</label>
+        <input type="text" name="guess" id="guess" required>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div id="result">
+        {% if result %}
+            <p>
+                {% if result == 'ok' %}
+                    Word is valid!
+                {% elif result == 'not-on-board' %}
+                    Word is not on the board!
+                {% else %}
+                    Not a valid word!
+                {% endif %}
+            </p>
+        {% endif %}
+    </div>
+
+    <div id="stats">Games Played: 0 | Highest Score: 0</div>
+
+    <!-- Correctly reference the boggle.js file at the bottom -->
+    <script src="{{ url_for('static', filename='boggle.js') }}"></script>
+</body>
+</html>
